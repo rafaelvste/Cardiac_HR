@@ -1,6 +1,8 @@
 # Cardiac_HR
 The codes in this repository reproduce the results of the paper “Cardiac behaviors and chaotic arrhythmias in the Hindmarsh-Rose model”, co-autored by Rafael V. Stenzinger, Tadeu E. Scalvin, Patrick A. Morelo and Marcelo H. R. Tragtenberg.
 
+The paper was published in Chaos, Solitons & Fractals (https://doi.org/10.1016/j.chaos.2023.113983).
+
 Codes can be compiled using GFortran or ifort and contain simple Gnuplot scripts to plot the results. Parameters to reproduce the results are in the figures, captions and/or in the main text of the paper.
 
 KTz_cell.f90, from the previous repository 'Reentry_CML_KTz', reproduces Supplementary Fig. S1.
