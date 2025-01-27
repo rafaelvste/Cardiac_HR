@@ -1,7 +1,7 @@
 # Cardiac_HR
 The codes in this repository are used in the study of the cardiac behaviors, chaos and periodic structures (i.e. shrimps) in the Hindmarsh-Rose model. They reproduce the results of the papers “Cardiac behaviors and chaotic arrhythmias in the Hindmarsh-Rose model”, co-autored by Rafael V. Stenzinger, Tadeu E. Scalvin, Patrick A. Morelo and Marcelo H. R. Tragtenberg, and "Shrimp hubs in the Hindmarsh-Rose model", co-autored by Rafael V. Stenzinger, Vinícius L. Oliveira and Marcelo H. R. Tragtenberg.
 
-Fortran codes can be compiled using GFortran or ifort and contain simple Gnuplot scripts to plot the results. Parameters to reproduce the results are in the figures, captions and/or in the main text of the paper.
+Fortran codes can be compiled using GFortran or ifort and contain simple Gnuplot scripts to plot the results. Parameters to reproduce the results are in the figures, captions and/or in the main text of the papers.
 
 #############################################################################
 
