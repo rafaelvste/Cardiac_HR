@@ -87,7 +87,9 @@ PROGRAM ODE
     USE FUNCS_SUBRS
     IMPLICIT NONE
     
-    ! Calculates the Lyapunov spectrum for the Hindmarsh-Rose model using the Wolf method. Outputs the three exponents for different external current Ie and parameter b. The code was adapted from Fortran 77 directly from the Appendix A of the 1985 paper.
+    ! Calculates the Lyapunov spectrum for the Hindmarsh-Rose model using the Wolf method.
+    ! Outputs the three exponents for different external current Ie and parameter b.
+    ! The code was adapted from Fortran 77 directly from the Appendix A of the 1985 paper.
 
     ! Declaration of variables
     INTEGER, PARAMETER :: N = 3
