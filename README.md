@@ -21,6 +21,8 @@ HR_RK4.f90 is used for the membrane potential results of Figs. 1, 4, 5 and S10. 
 
 For "Shrimp hubs in the Hindmarsh-Rose model":
 
+The paper was published in Chaos (https://doi.org/10.1063/5.0239268).
+
 HR_cell_bifurc_APD_ISI.f90 calculates the bifurcation diagrams of the ISI in Figs. 1 and 2a. 
 
 HR_cell_Lyap_Ie.f90 is used for the Lyapunov spectrum with respect to external current parameter Ie in Fig.2b.
