@@ -156,7 +156,7 @@
         b_p = b_0 - db
         do n_b = 1, n_b_max
             b_p = b_p + db
-            ! Determine maximum and minimum ISI in the time series:
+            ! Calculate ISI and APD bifurcation diagrams for b:
             call bifurc_APD_ISI(b_p)
         end do
         

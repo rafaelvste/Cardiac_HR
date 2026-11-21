@@ -4,15 +4,15 @@ MODULE FUNCS_SUBRS
 CONTAINS
 
     ! 4th order Runge-Kutta:
-    SUBROUTINE RK4(N, X, Y, H, FCN, B, Ie)
+    SUBROUTINE RK4(N, Y, H, FCN, B, Ie)
         IMPLICIT NONE
         INTEGER, INTENT(IN) :: N
         REAL(KIND=8), INTENT(IN) :: B, Ie      
-        REAL(KIND=8), INTENT(INOUT) :: X, Y(N), H
+        REAL(KIND=8), INTENT(INOUT) :: Y(N), H
         INTERFACE
-            SUBROUTINE FCN(N, X, Y, YPRIME, B, Ie)
+            SUBROUTINE FCN(N, Y, YPRIME, B, Ie)
                 INTEGER, INTENT(IN) :: N
-                REAL(KIND=8), INTENT(IN) :: X, Y(N), B, Ie
+                REAL(KIND=8), INTENT(IN) :: Y(N), B, Ie
                 REAL(KIND=8), INTENT(OUT) :: YPRIME(N)
             END SUBROUTINE FCN
         END INTERFACE
@@ -26,19 +26,19 @@ CONTAINS
         YTEMP = 0.0D0
 
         ! Calculate K1
-        CALL FCN(N, X, Y, K1, B, Ie)
+        CALL FCN(N, Y, K1, B, Ie)
 
         ! Calculate K2
         YTEMP = Y + 0.5D0*H*K1
-        CALL FCN(N, X + 0.5D0*H, YTEMP, K2, B, Ie)
+        CALL FCN(N, YTEMP, K2, B, Ie)
 
         ! Calculate K3
         YTEMP = Y + 0.5D0*H*K2
-        CALL FCN(N, X + 0.5D0*H, YTEMP, K3, B, Ie)
+        CALL FCN(N, YTEMP, K3, B, Ie)
 
         ! Calculate K4
         YTEMP = Y + H*K3
-        CALL FCN(N, X + H, YTEMP, K4, B, Ie)
+        CALL FCN(N, YTEMP, K4, B, Ie)
 
         ! Update Y and X
         Y = Y + (H/6.0D0)*(K1 + 2.0D0*K2 + 2.0D0*K3 + K4)
@@ -47,10 +47,10 @@ CONTAINS
     END SUBROUTINE RK4
 
     ! Hindmarsh-Rose model and linearized equations
-    SUBROUTINE FCN(N, X, Y, YPRIME, B, Ie)
+    SUBROUTINE FCN(N, Y, YPRIME, B, Ie)
         IMPLICIT NONE
         INTEGER, INTENT(IN) :: N
-        REAL(KIND=8), INTENT(IN) :: X, Y(N), B, Ie
+        REAL(KIND=8), INTENT(IN) :: Y(N), B, Ie
         REAL(KIND=8), INTENT(OUT) :: YPRIME(N)
         INTEGER :: I
         REAL(KIND=8) :: A, C, D, R, S, Xr
@@ -95,11 +95,9 @@ PROGRAM ODE
     INTEGER, PARAMETER :: N = 3
     INTEGER, PARAMETER :: NN = 12
     INTEGER :: NSTEP, I, J, K, L, TRANS, NB, NB_MAX, NIe, NIe_MAX
-    REAL(KIND=8) :: STPSZE, X, XEND, B, B0, BF, DB, Ie, Ie0, IeF, DIe, tic, toc
+    REAL(KIND=8) :: STPSZE, B, B0, BF, DB, Ie, Ie0, IeF, DIe
     REAL(KIND=8), DIMENSION(NN) :: Y
     REAL(KIND=8), DIMENSION(N) :: ZNORM, GSC, CUM
-
-    CALL CPU_TIME(tic)
 
     ! Range of parameter b
     B0 = 1.3D0
@@ -116,7 +114,6 @@ PROGRAM ODE
     NSTEP = 1000000
     STPSZE = 0.01D0
     TRANS = 800000
-    X = 0.0D0
 
     ! Open output files
     OPEN(UNIT = 10, FILE = 'lyapunov_spectrum_vs_b_Ie.dat', STATUS = 'REPLACE')
@@ -147,7 +144,6 @@ PROGRAM ODE
 
             ! Main integration loop
             DO I = 1, NSTEP
-                XEND = STPSZE * REAL(I, KIND=8)
 
                 ! 4th Runge-Kutta integration
                 CALL RK4(NN, X, Y, STPSZE, FCN, B, Ie)
@@ -208,16 +204,12 @@ PROGRAM ODE
             END DO
 
             ! Calculate and write Lyapunov exponents for Ie and b
-            WRITE(10, *) B, Ie, (CUM(J) / (NSTEP*STPSZE), J = 1, N)
+			WRITE(10, *) Ie, (CUM(J) / ((NSTEP-TRANS+1)*STPSZE), J = 1, N)
 
         END DO
 
     END DO
 
     CLOSE(10)
-
-    CALL CPU_TIME(toc)
-
-    PRINT *, "Execution Time: ", toc - tic
 
 END PROGRAM ODE
